@@ -1,13 +1,13 @@
 document.getElementById('issueInputForm').addEventListener('submit', saveIssue);
 
 function saveIssue(e) {
-    var issueDesc = document.getElementById('issueDescInput').value;
-    var issueSeverity = document.getElementById('issueSeverityInput').value;
-    var issueAssignedTo = document.getElementById('issueAssignedToInput').value;
-    var issueId = chance.guid();
-    var issueStatus = 'Open';
+    let issueDesc = document.getElementById('issueDescInput').value;
+    let issueSeverity = document.getElementById('issueSeverityInput').value;
+    let issueAssignedTo = document.getElementById('issueAssignedToInput').value;
+    let issueId = chance.guid();
+    let issueStatus = 'Open';
 
-    var issue = {
+    let issue = {
         id: issueId,
         description: issueDesc,
         severity: issueSeverity,
@@ -15,12 +15,12 @@ function saveIssue(e) {
         status: issueStatus
     }
 
-    if (localStorage.getItem('issues') == null) {
-        var issues = [];
+    if (localStorage.getItem('issues') === null) {
+        let issues = [];
         issues.push(issue);
         localStorage.setItem('issues', JSON.stringify(issues));
     } else {
-        var issues = JSON.parse(localStorage.getItem('issues'));
+        let issues = JSON.parse(localStorage.getItem('issues'));
         issues.push(issue);
         localStorage.setItem('issues', JSON.stringify(issues));
     }
@@ -33,26 +33,27 @@ function saveIssue(e) {
 }
 
 function fetchIssues(){
-    var issues = JSON.parse(localStorage.getItem('issues'));
-    var issuesListe = document.getElementById('issuesList');
+    let issues = JSON.parse(localStorage.getItem('issues'));
+    let issuesListe = document.getElementById('issuesList');
   
     issuesList.innerHTML = '';
   
-    for (var i = 0; i < issues.length; i++) {
-      var id = issues[i].id;
-      var desc = issues[i].description;
-      var severity = issues[i].severity;
-      var assignedTo = issues[i].assignedTo;
-      var status = issues[i].status;
+    for (let i = 0; i < issues.length; i++) {
+      let id = issues[i].id;
+      let desc = issues[i].description;
+      let severity = issues[i].severity;
+      let assignedTo = issues[i].assignedTo;
+      let status = issues[i].status;
   
-      issuesList.innerHTML +=   '<div class="well">'+
-                                '<h6>Issue ID: ' + id + '</h6>'+
-                                '<p><span class="label label-info">' + status + '</span></p>'+
-                                '<h3>' + desc + '</h3>'+
-                                '<p><span class="glyphicon glyphicon-time"></span> ' + severity + '</p>'+
-                                '<p><span class="glyphicon glyphicon-user"></span> ' + assignedTo + '</p>'+
+      issuesList.innerHTML +=   '<div class="card">'+
+                                '<div class="card-body">'+
+                                '<p class="h4">' + desc + '    <span class="badge badge-pill badge-info">' + status + '</span></p>'+
+                                '<p class="font-italic">Issue ID: ' + id + '</p>'+                                
+                                '<p><i class="fas fa-stopwatch"></i> ' + severity + '</p>'+
+                                '<p><i class="fas fa-user"></i> ' + assignedTo + '</p>'+
                                 '<a href="#" onclick="setStatusClosed(\''+id+'\')" class="btn btn-warning">Close</a> '+
                                 '<a href="#" onclick="deleteIssue(\''+id+'\')" class="btn btn-danger">Delete</a>'+
+                                '</div>'+
                                 '</div>';
     }
 }
