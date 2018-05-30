@@ -32,6 +32,34 @@ function saveIssue(e) {
     e.preventDefault();
 }
 
+function setStatusClosed(id) {
+    let issues = JSON.parse(localStorage.getItem('issues'))
+
+    for (let i = 0; i < issues.length; i++) {
+        if (issues[i].id === id) {
+            issues[i].status = 'Closed';
+        }              
+    }
+
+    localStorage.setItem('issues', JSON.stringify(issues));
+
+    fetchIssues();
+}
+
+function deleteIssue (id) {
+    let issues = JSON.parse(localStorage.getItem('issues'))
+
+    for (let i = 0; i < issues.length; i++) {
+        if (issues[i].id === id) {
+            issues.splice(i, 1);
+        }              
+    }
+
+    localStorage.setItem('issues', JSON.stringify(issues));
+
+    fetchIssues();
+}
+
 function fetchIssues(){
     let issues = JSON.parse(localStorage.getItem('issues'));
     let issuesListe = document.getElementById('issuesList');
@@ -51,8 +79,8 @@ function fetchIssues(){
                                 '<p class="font-italic">Issue ID: ' + id + '</p>'+                                
                                 '<p><i class="fas fa-stopwatch"></i> ' + severity + '</p>'+
                                 '<p><i class="fas fa-user"></i> ' + assignedTo + '</p>'+
-                                '<a href="#" onclick="setStatusClosed(\''+id+'\')" class="btn btn-warning">Close</a> '+
-                                '<a href="#" onclick="deleteIssue(\''+id+'\')" class="btn btn-danger">Delete</a>'+
+                                '<button type="button" class="btn btn-warning" onclick="setStatusClosed(\''+id+'\')">Close</button>'+
+                                '<button type="button" class="btn btn-danger" onclick="deleteIssue(\''+id+'\')">Delete</a>'+
                                 '</div>'+
                                 '</div>';
     }
